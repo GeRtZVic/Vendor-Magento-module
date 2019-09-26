@@ -1,0 +1,13 @@
+<?php
+/**
+ * @var $this Logo
+ */
+
+use Training\Elogic\Block\Catalog\Product\View\Logo;
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+?>
+<div class="AAAAAAA">
+    <img src="<?= $this->getBaseUrl() ?><?= $this->getVendorImage($product->getProduct_vendor()); ?>">
+</div>

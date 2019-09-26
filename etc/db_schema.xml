@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="vendor" resource="default" engine="innodb" comment="Author Table">
+        <column xsi:type="int" name="id" padding="6" unsigned="false" nullable="false" identity="true" comment="Vendor ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Vendor Title"/>
+        <column xsi:type="varchar" name="description" nullable="false" length="255" comment="Description"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" comment="Date Added"/>
+        <column xsi:type="varchar" name="logo" nullable="false" length="255" comment="Logo"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>

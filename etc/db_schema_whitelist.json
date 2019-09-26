@@ -1,0 +1,14 @@
+{
+    "vendor": {
+        "column": {
+            "id": true,
+            "title": true,
+            "description": true,
+            "created_at": true,
+            "logo": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

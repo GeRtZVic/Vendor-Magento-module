@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Training_Elogic::vendor_head" title="Vendor" translate="vendor" module="Training_Elogic" sortOrder="20" dependsOnModule="Training_Elogic" resource="Training_Elogic::vendor"/>
+        <add id="Training_Elogic::vendor" title="Vendor" translate="title" module="Training_Elogic" sortOrder="10" parent="Training_Elogic::vendor_head" action="elogic/index/" resource="Training_Elogic::vendor"/>
+    </menu>
+</config>
