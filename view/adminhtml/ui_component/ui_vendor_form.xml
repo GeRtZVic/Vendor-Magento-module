@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">ui_vendor_form.training_elogic_form_data_source</item>
+            <item name="deps" xsi:type="string">ui_vendor_form.training_elogic_form_data_source</item>
+        </item>
+
+        <item name="label" xsi:type="string" translate="true">Contact Form</item>
+        <!--
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+        -->
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">ui_vendor_form</item>
+            <item name="action" xsi:type="string">elogic/index/save</item>
+            <item name="id" xsi:type="string">ui_vendor_form</item>
+        </item>
+
+
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Training\Elogic\Block\Adminhtml\Vendor\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Training\Elogic\Block\Adminhtml\Vendor\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">Training\Elogic\Block\Adminhtml\Vendor\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">Training\Elogic\Block\Adminhtml\Vendor\Edit\SaveButton</item>
+        </item>
+    </argument>
+
+    <dataSource name="training_elogic_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Training\Elogic\Model\Vendor\DataProvider</argument>
+            <argument name="name" xsi:type="string">training_elogic_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="elogic/index/save" />
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="vendor">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Vendor Fieldset</item>
+            </item>
+        </argument>
+
+<!--        <field name="id">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="visible" xsi:type="boolean">false</item>-->
+<!--                    <item name="dataType" xsi:type="string">text</item>-->
+<!--                    <item name="formElement" xsi:type="string">input</item>-->
+<!--                    <item name="source" xsi:type="string">vendor</item>-->
+<!--                    <item name="dataScope" xsi:type="string">id</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </field>-->
+
+        <field name="title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Title</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">vendor</item>
+                    <item name="dataScope" xsi:type="string">title</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Description</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">vendor</item>
+                    <item name="dataScope" xsi:type="string">description</item>
+                </item>
+            </argument>
+        </field>
+        <field name="logo">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Vendor logo</item>
+                    <item name="source" xsi:type="string">vendor</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Training_Elogic/image-preview</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="elogic/index/upload"/>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>
