@@ -3,7 +3,8 @@
     <update handle="editor"/>
     <body>
         <referenceContainer name="content">
-            <block class="Training\Elogic\Block\Adminhtml\Vendor\Edit" name="elogic_index_edit"/>
+<!--            <block class="Training\Elogic\Block\Adminhtml\Vendor\Edit" name="elogic_index_edit"/>-->
+            <uiComponent name="ui_vendor_form"/>
         </referenceContainer>
     </body>
 </page>

@@ -1,13 +1,14 @@
 <?php
 namespace Training\Elogic\Model\Config\Source;
 
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 use Training\Elogic\Model\VendorFactory;
 
 /**
  * Class Options
  * @package Training\Elogic\Model\Config\Source
  */
-class Options extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Options extends AbstractSource
 {
     /**
      * @var VendorFactory

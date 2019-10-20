@@ -30,7 +30,7 @@ class NewAction extends Action
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _isAllowed()
     {

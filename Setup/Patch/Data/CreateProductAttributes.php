@@ -5,12 +5,13 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 /**
  * Class CreateProductAttributes
  * @package Training\Elogic\Setup\Patch\Data
  */
-class CreateProductAttributes implements DataPatchInterface
+class CreateProductAttributes implements DataPatchInterface,PatchRevertableInterface
 {
     /**
      * @var EavSetupFactory
@@ -85,5 +86,16 @@ class CreateProductAttributes implements DataPatchInterface
                 ]
             ]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function revert()
+    {
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+        if(!$eavSetup->getAttributeId(\Magento\Catalog\Model\Product::ENTITY, 'product_vendor')) {
+            $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'product_vendor');
+        }
     }
 }

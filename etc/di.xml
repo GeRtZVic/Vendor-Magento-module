@@ -34,4 +34,22 @@
             <argument name="resourceModel" xsi:type="string">Training\Elogic\Model\ResourceModel\Vendor</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="Training\Elogic\VendorImageUpload" type="Training\Elogic\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">training/elogic/vendor/tmp</argument>
+            <argument name="basePath" xsi:type="string">training/elogic/vendor/image/</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Training\Elogic\Controller\Adminhtml\Index\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Training\Elogic\VendorImageUpload</argument>
+        </arguments>
+    </type>
 </config>

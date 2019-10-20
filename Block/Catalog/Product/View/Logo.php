@@ -1,9 +1,12 @@
 <?php
 namespace Training\Elogic\Block\Catalog\Product\View;
 
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Filesystem;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
+use Training\Elogic\Model\ResourceModel\Vendor;
+use Magento\Framework\Registry;
 use Training\Elogic\Model\VendorFactory;
 
 /**
@@ -34,36 +37,79 @@ class Logo extends Template
     protected $fileSystem;
 
     /**
+     * @var Vendor
+     */
+    private $vendorResource;
+
+    /**
+     * @var Product
+     */
+    private $product;
+
+    /**
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
      * Logo constructor.
      * @param Template\Context $context
      * @param VendorFactory $vendorFactory
      * @param UrlInterface $urlBuilder
      * @param Filesystem $fileSystem
+     * @param Vendor $vendorResource
+     * @param Registry $registry
      */
     public function __construct(
         Template\Context $context,
         VendorFactory $vendorFactory,
         UrlInterface $urlBuilder,
-        Filesystem $fileSystem
+        Filesystem $fileSystem,
+        Vendor $vendorResource,
+        Registry $registry
     )
     {
         $this->vendorFactory = $vendorFactory;
         $this->urlBuilder = $urlBuilder;
         $this->fileSystem = $fileSystem;
+        $this->vendorResource = $vendorResource;
+        $this->registry = $registry;
         parent::__construct($context);
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * @return Product|mixed
      */
-    public function getVendorImage($id)
+    private function getProduct()
     {
-        $customCollection = $this->vendorFactory
-            ->create()->getCollection()->addFieldToFilter('id', $id);
-        foreach ($customCollection as $custom) {
-            return $custom->getLogo();
+        if (is_null($this->product)) {
+            $this->product = $this->registry->registry('current_product');
+
+            if (!$this->product->getId()) {
+                throw new LocalizedException(__('Failed to initialize product'));
+            }
         }
+
+        return $this->product;
+    }
+
+    /**
+     * @return bool|string|null |null
+     */
+    public function getVendorImage()
+    {
+        $vendor = $this->vendorFactory->create();
+        $this->vendorResource->load(
+            $vendor,
+            $this->getProduct()->getProductVendor(),
+            'id'
+        );
+        if ($vendor->getId()){
+            return substr($vendor->getLogo(), 0, 1) == '/' ?
+                substr($vendor->getLogo(), 1) :
+                $vendor->getLogo();
+        }
+
         return null;
     }
 
@@ -74,6 +120,6 @@ class Logo extends Template
      */
     public function getBaseUrl()
     {
-        return $this->urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . $this->subDir . '/image';
+        return $this->urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . $this->subDir . '/image/';
     }
 }

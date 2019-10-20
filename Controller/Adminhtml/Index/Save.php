@@ -10,7 +10,6 @@ use Magento\Framework\File\Uploader;
 use RuntimeException;
 use Training\Elogic\Model\Vendor;
 use Magento\MediaStorage\Model\File\UploaderFactory;
-use Training\Elogic\Model\Vendor\Image;
 
 /**
  * Class Save
@@ -28,27 +27,21 @@ class Save extends Action
      */
     protected $uploaderFactory;
 
-    /**
-     * @var Image
-     */
-    protected $imageModel;
+    protected $imageUploader;
 
     /**
      * @param Action\Context $context
      * @param Vendor $model
      * @param UploaderFactory $uploaderFactory
-     * @param Image $imageModel
      */
     public function __construct(
         Action\Context $context,
         Vendor $model,
-        UploaderFactory $uploaderFactory,
-        Image $imageModel
+        UploaderFactory $uploaderFactory
     ) {
         parent::__construct($context);
         $this->_model = $model;
         $this->uploaderFactory = $uploaderFactory;
-        $this->imageModel = $imageModel;
     }
 
     /**
@@ -86,8 +79,18 @@ class Save extends Action
             );
 
             try {
-                $imageName = $this->uploadFileAndGetName('logo', $this->imageModel->getBaseDir(), $data);
-                $model->setLogo($imageName);
+                if (isset($data['logo'][0]['name']) && isset($data['logo'][0]['tmp_name'])) {
+                    $data['image'] =$data['logo'][0]['name'];
+                    $this->imageUploader = \Magento\Framework\App\ObjectManager::getInstance()->get(
+                        'Training\Elogic\VendorImageUpload'
+                    );
+                    $this->imageUploader->moveFileFromTmp($data['image']);
+                } elseif (isset($data['logo'][0]['image']) && !isset($data['logo'][0]['tmp_name'])) {
+                    $data['image'] = $data['logo'][0]['image'];
+                } else {
+                    $data['image'] = null;
+                }
+                $model->setLogo($data['image']);
                 $model->setCreated_at(date("Y-m-d H:i:s"));
                 $model->save();
                 $this->messageManager->addSuccess(__('Vendor saved'));
