@@ -2,11 +2,12 @@
 namespace Training\Elogic\Block\Catalog\Product\View;
 
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
+use Magento\Framework\Registry;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Training\Elogic\Model\ResourceModel\Vendor;
-use Magento\Framework\Registry;
 use Training\Elogic\Model\VendorFactory;
 
 /**
@@ -67,8 +68,7 @@ class Logo extends Template
         Filesystem $fileSystem,
         Vendor $vendorResource,
         Registry $registry
-    )
-    {
+    ) {
         $this->vendorFactory = $vendorFactory;
         $this->urlBuilder = $urlBuilder;
         $this->fileSystem = $fileSystem;
@@ -79,6 +79,7 @@ class Logo extends Template
 
     /**
      * @return Product|mixed
+     * @throws LocalizedException
      */
     private function getProduct()
     {
@@ -94,23 +95,28 @@ class Logo extends Template
     }
 
     /**
-     * @return bool|string|null |null
+     * @return array
+     * @throws LocalizedException
      */
-    public function getVendorImage()
+    public function getVendorImages()
     {
-        $vendor = $this->vendorFactory->create();
-        $this->vendorResource->load(
-            $vendor,
-            $this->getProduct()->getProductVendor(),
-            'id'
-        );
-        if ($vendor->getId()){
-            return substr($vendor->getLogo(), 0, 1) == '/' ?
-                substr($vendor->getLogo(), 1) :
-                $vendor->getLogo();
+        $vendorArray = explode(',',$this->getProduct()->getProductVendor());
+        $vendorsImgs = [];
+        foreach ($vendorArray as $vendorId){
+            $vendor = $this->vendorFactory->create();
+            $this->vendorResource->load(
+                $vendor,
+                $vendorId,
+                'id'
+            );
+            if ($vendor->getId()) {
+                $vendorsImgs[] = substr($vendor->getLogo(), 0, 1) == '/' ?
+                    substr($vendor->getLogo(), 1) :
+                    $vendor->getLogo();
+            }
         }
 
-        return null;
+        return $vendorsImgs;
     }
 
     /**

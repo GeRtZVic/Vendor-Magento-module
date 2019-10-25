@@ -31,11 +31,11 @@ class Options extends AbstractSource
     public function getAllOptions()
     {
         $customCollection = $this->vendorFactory->create()->getCollection();
-        $this->_options = [['label'=>'Please select', 'value'=>'']];
+        $options = [];
         foreach ($customCollection as $custom) {
-            $this->_options[] = ['label'=> $custom->getTitle(), 'value' => $custom->getId()];
+            $options[] = ['label'=> $custom->getTitle(), 'value' => $custom->getId()];
         }
-        return $this->_options;
+        return $options;
     }
 
     /**
@@ -46,11 +46,13 @@ class Options extends AbstractSource
      */
     public function getOptionText($value)
     {
+        $vendorsTitle = '';
+        $vendorsIds = explode(',',$value);
         foreach ($this->getAllOptions() as $option) {
-            if ($option['value'] == $value) {
-                return $option['label'];
+            if (in_array($option['value'],$vendorsIds)) {
+                $vendorsTitle .= empty($vendorsTitle) ? $option['label'] : ', ' . $option['label'];
             }
         }
-        return false;
+        return empty($vendorsTitle) ? false : $vendorsTitle;
     }
 }

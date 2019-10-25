@@ -3,6 +3,8 @@
  * @var Training\Elogic\Block\Catalog\Product\View\Logo $block
  */
 ?>
-<div class="AAAAAAA">
-    <img src="<?= $block->getBaseUrl() ?><?= $block->getVendorImage(); ?>">
-</div>
+<?php foreach ($block->getVendorImages() as $image):?>
+    <div class="AAAAAAA">
+        <img src="<?= $block->getBaseUrl() ?><?= $image ?>">
+    </div>
+<?php endforeach;?>

@@ -62,7 +62,7 @@ class CreateProductAttributes implements DataPatchInterface,PatchRevertableInter
             'product_vendor',
             [
                 'group' => 'General',
-                'type' => 'int',
+                'type' => 'text',
                 'backend' => '',
                 'frontend' => '',
                 'label' => 'Vendor of product',

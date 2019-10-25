@@ -31,6 +31,6 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', []) ;
+        return $this->getUrl('*/*/save', []);
     }
 }

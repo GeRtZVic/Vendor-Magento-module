@@ -10,6 +10,7 @@ use Magento\Framework\File\Uploader;
 use RuntimeException;
 use Training\Elogic\Model\Vendor;
 use Magento\MediaStorage\Model\File\UploaderFactory;
+use Training\Elogic\Model\VendorRepository;
 
 /**
  * Class Save
@@ -27,21 +28,29 @@ class Save extends Action
      */
     protected $uploaderFactory;
 
+    /**
+     * @var VendorRepository
+     */
+    private $vendorRepository;
+
     protected $imageUploader;
 
     /**
      * @param Action\Context $context
      * @param Vendor $model
      * @param UploaderFactory $uploaderFactory
+     * @param VendorRepository $vendorRepository
      */
     public function __construct(
         Action\Context $context,
         Vendor $model,
-        UploaderFactory $uploaderFactory
+        UploaderFactory $uploaderFactory,
+        VendorRepository $vendorRepository
     ) {
         parent::__construct($context);
         $this->_model = $model;
         $this->uploaderFactory = $uploaderFactory;
+        $this->vendorRepository = $vendorRepository;
     }
 
     /**
@@ -68,7 +77,7 @@ class Save extends Action
 
             $id = $this->getRequest()->getParam('id');
             if ($id) {
-                $model->load($id);
+                $model = $this->vendorRepository->getById($id);
             }
 
             $model->setData($data);
@@ -91,8 +100,8 @@ class Save extends Action
                     $data['image'] = null;
                 }
                 $model->setLogo($data['image']);
-                $model->setCreated_at(date("Y-m-d H:i:s"));
-                $model->save();
+                $this->vendorRepository->save($model);
+
                 $this->messageManager->addSuccess(__('Vendor saved'));
                 $this->_getSession()->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {

@@ -5,6 +5,10 @@ use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\UrlInterface;
 
+/**
+ * Class GenericButton
+ * @package Training\Elogic\Block\Adminhtml\Vendor\Edit
+ */
 class GenericButton
 {
     /**

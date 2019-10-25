@@ -2,6 +2,7 @@
 namespace Training\Elogic\Setup\Patch\Data;
 
 use Magento\Catalog\Model\Product;
+use Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend;
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
@@ -56,15 +57,13 @@ class FixProductInputTypeAttribute implements DataPatchInterface,PatchRevertable
     public function apply()
     {
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
-        if(!$eavSetup->getAttributeId(\Magento\Catalog\Model\Product::ENTITY, 'product_vendor')) {
-            $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'product_vendor');
-        }
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'product_vendor');
         $eavSetup->addAttribute(
             Product::ENTITY,
             'product_vendor',
             [
                 'group' => 'General',
-                'type' => 'int',
+                'type' => 'text',
                 'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
                 'frontend' => '',
                 'label' => 'Vendor of product',
@@ -105,7 +104,7 @@ class FixProductInputTypeAttribute implements DataPatchInterface,PatchRevertable
             'product_vendor',
             [
                 'group' => 'General',
-                'type' => 'int',
+                'type' => 'text',
                 'backend' => '',
                 'frontend' => '',
                 'label' => 'Vendor of product',

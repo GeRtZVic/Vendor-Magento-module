@@ -52,4 +52,7 @@
             <argument name="imageUploader" xsi:type="object">Training\Elogic\VendorImageUpload</argument>
         </arguments>
     </type>
+    <preference for="Training\Elogic\Api\VendorRepositoryInterface" type="Training\Elogic\Model\VendorRepository"/>
+    <preference for="Training\Elogic\Api\Data\VendorInterface" type="Training\Elogic\Model\Vendor"/>
+    <preference for="Training\Elogic\Api\Data\VendorSearchResultInterface" type="Training\Elogic\Model\VendorSearchResult"/>
 </config>

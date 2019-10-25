@@ -1,16 +1,22 @@
 <?php
 namespace Training\Elogic\Model\Vendor;
 
+use Magento\Cms\Model\Block;
+use Magento\Cms\Model\ResourceModel\Block\Collection;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 use Training\Elogic\Model\ResourceModel\Vendor\CollectionFactory;
 
 /**
  * Class DataProvider
  */
-class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+class DataProvider extends AbstractDataProvider
 {
     /**
-     * @var \Magento\Cms\Model\ResourceModel\Block\Collection
+     * @var Collection
      */
     protected $collection;
 
@@ -39,7 +45,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * @param string $primaryFieldName
      * @param string $requestFieldName
      * @param CollectionFactory $vendordCollectionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      * @param DataPersistorInterface $dataPersistor
      * @param array $meta
      * @param array $data
@@ -49,7 +55,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $vendordCollectionFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
         DataPersistorInterface $dataPersistor,
         array $meta = [],
         array $data = []
@@ -64,16 +70,16 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * Get data
      *
      * @return array
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function getData()
     {
-        $baseurl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        $baseurl = $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
         $items = $this->collection->getItems();
-        /** @var \Magento\Cms\Model\Block $block */
+        /** @var Block $block */
         foreach ($items as $vendor) {
             $temp = $vendor->getData();
 
